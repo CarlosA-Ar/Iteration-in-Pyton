@@ -1446,13 +1446,14 @@ lifestore_sales = [id_sale, id_product, score (from 1 to 5), date, refund
 
 lifestore_searches = [id_search, id product]
     Hay 96 elementos (cada uno tiene):
-        0. La clave de venta.
+        0. La clave de busqueda.
         1. La clave del producto que se vendió.
 """
 
-# Obtener los 5 productos más vendidos y los 10 más buscados:
+# A. PRODUCTOS MÁS VENDIDOS Y REZAGADOS
+# A.1 Obtener los 5 productos más vendidos y los 10 más buscados:
 
-# 1. Obtener una lista de las claves de los productos:
+    # 1. Obtener una lista de las claves de los productos:
 id_producto = []
 for producto in range(len(lifestore_products)):
     id_producto.append(lifestore_products[producto][0])
@@ -1474,9 +1475,61 @@ for i in id_producto:
     frecuencia_producto.append([i,id_del_prod_repetido_en_ventas.count(i),
                                 id_del_prod_repetido_en_busqued.count(i)])
 
-    # 4. Ordenar los 
-    frecuencia_producto.sort()
+    # 4. Definir dos funciones para tener criterio de ordenar los objetos
+    # de la lista (de frecuencias) con respecto al segundo o tercer 
+    # elemento de cada objeto.
+def criterio_orden_dos(elemento):
+    return elemento[1]
+def criterio_orden_tres(elementa):
+    return elementa[2]
+    
+    # 5. Definir la lista de los más vendidos y los más buscados con uso de
+    # la función sort() para obtener de mayor a menor, las ventas o búsquedas
+    # de productos.
+mas_vendidos = frecuencia_producto
+mas_vendidos.sort(reverse = True, key = criterio_orden_dos)
+
+mas_buscados = frecuencia_producto
+mas_buscados.sort(reverse = True, key = criterio_orden_tres)
+
+    # 6. Obtener los nombres de los 5 primeros productos más vendidos y de 
+    # los 10 más buscados.
+los_mas_vendidos = []
+for i in range(len(lifestore_products)):
+    for j in range(len(mas_vendidos)):
+        if lifestore_products[i][0] == mas_vendidos[j][0]:
+            los_mas_vendidos.append([mas_vendidos[j][1], lifestore_products[i][1]])
+los_mas_vendidos.sort(reverse = True)
+
+los_mas_buscados = []
+for i in range(len(lifestore_products)):
+    for j in range(len(mas_buscados)):
+        if lifestore_products[i][0] == mas_buscados[j][0]:
+            los_mas_buscados.append([mas_buscados[j][2], lifestore_products[i][1]])
+los_mas_buscados.sort(reverse = True)
+
+# Los primeros 5 más vendidos
+print(los_mas_vendidos[0:5])
+# Los 10 primeros más buscados
+print(los_mas_buscados[0:10])
+
+# A.2 Obtener los 5 productos con menores ventas y los 10 con menos búsquedas 
+#     por categoría
+
+    # 1. Dado el inciso A.1, queda definir la lista de los menos vendidos y 
+    # los menos buscados con uso de la función sort() para obtener de menor a 
+    # mayor, las ventas o búsquedas de productos.
+    
+mas_vendidos = frecuencia_producto
+mas_vendidos.sort(reverse = True, key = criterio_orden_dos)
+
+mas_buscados = frecuencia_producto
+mas_buscados.sort(reverse = True, key = criterio_orden_tres)
 
 
 
+# B. PRODUCTOS POR RESEÑA DE SERVICIO
+
+
+# C. VENTAS
 
