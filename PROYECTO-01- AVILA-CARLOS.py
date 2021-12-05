@@ -1680,9 +1680,12 @@ for ventas_mensuales in ventas_por_mes_con_dev:
     #Para que podamos asociar la clave con el nombre del producto...
     las_mejores_resenias = []
     for prod_resenia in mejores_resenias:
-        for producto in ventas_mensuales:
-            if prod_resenia[1] == producto[0]:
-                las_mejores_resenias.append([prod_resenia[0], producto[1]])
+        for venta in ventas_mensuales:
+            if prod_resenia[1] == venta[0]:
+                #Asociamos el id del producto y lo cambiamos por su nombre.
+                for producto in lifestore_products:
+                        if producto[0] == venta[1]:
+                            las_mejores_resenias.append([prod_resenia[0], producto[1]])
     las_mejores_resenias = las_mejores_resenias[0:10]
     # Añadimos el resultado a la lista de ventas del mes correspondiente.
     ventas_mensuales.insert(0,las_mejores_resenias)
@@ -1829,8 +1832,40 @@ categorias_almacenadas = [
     memosrias_almacenadas
     ]
 
-#%% D. Ventas, mensuales, totales.
+#%% D. Ventas mensuales y totales.
+# 0. Añadir una lista dentro de los meses de ventas en la lista ventas_por_mes_sin_dev
+# que contenga la información mensual de las ventas: ingresos totales, 
+# número de ventas, promedio diario de ventas en el mes suponiendo un año comercial.
+# Se hace solo para los meses que sí tuvieron venta, el resto se llena manualmente.
+for mes_de_ventas in ventas_por_mes_sin_dev[0:8]:
+    # Vemos cuántas ventas hubieron desde el tercer elemento, porque en for
+    # previos, ya calculamos colocamos en las primeras dos posiciones, 
+    # resultados.
+    ingreso = 0 # Iniciar los ingresos en 0
+    for venta in mes_de_ventas[2:len(mes_de_ventas)]:
+        for producto in lifestore_products: 
+            if venta[1] == producto[0]:
+                ingreso += producto[2]
+    mes_de_ventas.insert(2, [ingreso, len(mes_de_ventas)-2, ingreso/30])
+# Para que los meses que no hubo ventas.
+for mes_de_ventas in ventas_por_mes_sin_dev[8:12]:
+    mes_de_ventas.insert(2, [0, 0, 0])
 
+ventas_por_mes_sin_dev[9][2]
+
+# 1. Calcular las ventas anuales totales, ingresos totales y 
+# promedio de ingresos mensual.
+ingreso_total = 0
+cantidad_ventas = 0
+ventas_anuales = []
+ # Meses es una lista que tiene ventas y resultado previos de ese mes,
+ # en la posición 3, se encuentra la lista calculada en el for del punto 
+ # anterior. El índice 0 contiene el ingreso mensual de ventas y el 1 
+ # contiene el número de ventas hechas al mes.
+for meses in ventas_por_mes_sin_dev:
+    ingreso_total += meses[2][0]
+    cantidad_ventas += meses[2][1]
+ventas_anuales = [ingreso_total, cantidad_ventas, ingreso_total/12]
 
 
 #%% R E S U L T A D O S (login)
@@ -1856,21 +1891,23 @@ Escriba el nombre del mes que desea
 empezando con mayúscula: """)
         if mes1 in meses:
             print("")
-            print("     Reporte de ",mes1)
+            print("            REPORTE DE",mes1.upper())
             indice = int(meses.index(mes1))
             print("")
-            print("Lista de los primeros 10 productos más vendidos")
+            print("      Los 10 productos más vendidos")
             for i in ventas_por_mes_sin_dev[indice][0]:
                 print(i)
             print("")
-            print("Lista de ventas por categoría")
+            print("      Número de ventas por categoría")
             for i in ventas_por_mes_sin_dev[indice][1]:
                 print(i)
             print("")
-            print("Lista de las primeras 10 mejores reseñas")
+            print("      Productos con las mejores reseñas")
             for i in ventas_por_mes_con_dev[indice][0]:
                 print(i)
             print("")
+            print("Ingresos totales // Número de ventas // Promedio diario de ventas")
+            print(ventas_por_mes_sin_dev[indice][2])
         else:
             print("""
                   Por favor, asegúrate de escribir el nombre
@@ -1895,10 +1932,10 @@ empezando con mayúscula: """)
         busquedas_por_categoria
     elif menu == 3:
         print("")
-        print("""VENTAS""")
+        print("      Ventas Anuales")
+        print(ventas_anuales)
         print("")
         print("      Productos en el almacén")
-        print("")
         for categ_alacen in categorias_almacenadas:
             print(categ_alacen)
     else:
