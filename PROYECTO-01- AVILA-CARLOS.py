@@ -1679,17 +1679,17 @@ for ventas_mensuales in ventas_por_mes_con_dev:
     mejores_resenias.sort(reverse = True)
     #Para que podamos asociar la clave con el nombre del producto...
     las_mejores_resenias = []
-    for prod_resenia in mejores_resenias:
-        for venta in ventas_mensuales:
-            if prod_resenia[1] == venta[0]:
-                #Asociamos el id del producto y lo cambiamos por su nombre.
-                for producto in lifestore_products:
-                        if producto[0] == venta[1]:
-                            las_mejores_resenias.append([prod_resenia[0], producto[1]])
+    for producto in lifestore_products:
+        for resenia in mejores_resenias:
+            if producto[0] == resenia[1]:
+                las_mejores_resenias.append([resenia[0], producto[1]])
+     
+    # Obtenemos las mejores 10 reseñas.
+    las_mejores_resenias.sort(reverse = True)
     las_mejores_resenias = las_mejores_resenias[0:10]
-    # Añadimos el resultado a la lista de ventas del mes correspondiente.
+     # Añadimos el resultado a la lista de ventas del mes correspondiente.
     ventas_mensuales.insert(0,las_mejores_resenias)
-
+   
 # EXPLICACIÓN DE LA LISTA OBTENIDA LUEGO DE ESTOS FOR:
     #Lista de los primeros 10 productos más vendidos en enero
 ventas_por_mes_sin_dev[0][0]
@@ -1898,12 +1898,12 @@ empezando con mayúscula: """)
             for i in ventas_por_mes_sin_dev[indice][0]:
                 print(i)
             print("")
-            print("      Número de ventas por categoría")
-            for i in ventas_por_mes_sin_dev[indice][1]:
-                print(i)
-            print("")
             print("      Productos con las mejores reseñas")
             for i in ventas_por_mes_con_dev[indice][0]:
+                print(i)
+            print("")
+            print("      Número de ventas por categoría")
+            for i in ventas_por_mes_sin_dev[indice][1]:
                 print(i)
             print("")
             print("Ingresos totales // Número de ventas // Promedio diario de ventas")
