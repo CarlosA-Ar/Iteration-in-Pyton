@@ -1652,6 +1652,7 @@ for mes_venta in ventas_por_mes_sin_dev: #el mes_venta es un "pedazo" de
     for categoria in categorias:
         frec_prod_categ.append([categoria_del_prod_repetida_en_ventas.count(categoria),
                                 categoria])
+    frec_prod_categ.sort(reverse = True)
     mes_venta.insert(1,frec_prod_categ)
 
 # 3.0 PRODUCTOS POR RESEÑA DE SERVICIO
@@ -1684,30 +1685,15 @@ for ventas_mensuales in ventas_por_mes_con_dev:
                 las_mejores_resenias.append([prod_resenia[0], producto[1]])
     las_mejores_resenias = las_mejores_resenias[0:10]
     # Añadimos el resultado a la lista de ventas del mes correspondiente.
-    mes_venta.insert(2,las_mejores_resenias)
-    
-    # 3.3 Los 5 productos con peores reseñas.
-    peores_resenias = resenias_por_producto
-    peores_resenias.sort(reverse = False)
-    #Para que podamos asociar la clave con el nombre del producto...
-    las_peores_resenias = []
-    for prod_resenia in peores_resenias:
-        for producto in ventas_mensuales:
-            if prod_resenia[1] == producto[0]:
-                las_peores_resenias.append([prod_resenia[0], producto[1]])
-    las_peores_resenias = las_peores_resenias[0:10]
-    #Añadimos a la lista de ventas mensuales, el resultado.
-    mes_venta.insert(3,las_peores_resenias)
+    ventas_mensuales.insert(0,las_mejores_resenias)
 
 # EXPLICACIÓN DE LA LISTA OBTENIDA LUEGO DE ESTOS FOR:
     #Lista de los primeros 10 productos más vendidos en enero
 ventas_por_mes_sin_dev[0][0]
-    #Lista de ventas por categoría en enero
-ventas_por_mes_sin_dev[0][1]
-    #Lista de las primeras 10 mejores reseñas en enero
-ventas_por_mes_sin_dev[0][2]
-    #Lista de las primeras 10 peores reseñas en enero
-ventas_por_mes_sin_dev[0][3]
+    #Lista de ventas por categoría en febrero
+ventas_por_mes_sin_dev[1][1]
+    #Lista de las primeras 10 mejores reseñas en marzo
+ventas_por_mes_con_dev[2][0]
 
 
 #%% B. Los productos más y menos buscados y las búsquedas por categoría
@@ -1780,40 +1766,72 @@ busquedas_por_categoria = frec_prod_categ
 busquedas_por_categoria.sort()
 busquedas_por_categoria = busquedas_por_categoria[0:10]
 
-#%% C. Ventas, mensuales, totales.
+#%% C. Productos en el inventario
 
-### verificamos los meses en los que hubo ventas
-meses_de_ventas=[]
-for venta in lifestore_sales:
-    if venta[4]==0:
-        meses_de_ventas.append(venta[3][3:10])
+# 0.0 Número de artículos en el almacén por categoría.
 
-meses_de_ventas=sorted(set(meses_de_ventas))
+audifonos_almacenados = []
+for producto in lifestore_products:
+    if producto[3] == categorias[0]:
+        audifonos_almacenados.append(producto[4])
+audifonos_almacenados = ["Audífonos", sum(audifonos_almacenados)]
+
+tarjetas_madre_almacenadas = []
+for producto in lifestore_products:
+    if producto[3] == categorias[1]:
+        tarjetas_madre_almacenadas.append(producto[4])
+tarjetas_madre_almacenadas = ["Tarjetas madre", sum(tarjetas_madre_almacenadas)]
+
+tarjetas_de_video_almacenadas = []
+for producto in lifestore_products:
+    if producto[3] == categorias[2]:
+        tarjetas_de_video_almacenadas.append(producto[4])
+tarjetas_de_video_almacenadas = ["Tarjetas de video", sum(tarjetas_de_video_almacenadas)]
+
+bocinas_almacenadas = []
+for producto in lifestore_products:
+    if producto[3] == categorias[3]:
+        bocinas_almacenadas.append(producto[4])
+bocinas_almacenadas = ["Bocinas", sum(bocinas_almacenadas)]
+
+procesadores_almacenados = []
+for producto in lifestore_products:
+    if producto[3] == categorias[4]:
+        procesadores_almacenados.append(producto[4])
+procesadores_almacenados = ["Procesadores", sum(procesadores_almacenados)]
+
+discos_duros_almacenados = []
+for producto in lifestore_products:
+    if producto[3] == categorias[5]:
+        discos_duros_almacenados.append(producto[4])
+discos_duros_almacenados = ["Discos duros", sum(discos_duros_almacenados)]
+
+pantallas_alamacenadas = []
+for producto in lifestore_products:
+    if producto[3] == categorias[6]:
+        pantallas_alamacenadas.append(producto[4])
+pantallas_alamacenadas = ["Pantallas", sum(pantallas_alamacenadas)]
+
+memosrias_almacenadas = []
+for producto in lifestore_products:
+    if producto[3] == categorias[7]:
+        memosrias_almacenadas.append(producto[4])
+memosrias_almacenadas = ["Memorias USB", sum(memosrias_almacenadas)]
+
+categorias_almacenadas = [
+    audifonos_almacenados,
+    tarjetas_madre_almacenadas,
+    tarjetas_de_video_almacenadas,
+    bocinas_almacenadas,
+    procesadores_almacenados,
+    discos_duros_almacenados,
+    pantallas_alamacenadas,
+    memosrias_almacenadas
+    ]
+
+#%% D. Ventas, mensuales, totales.
 
 
-ventas_por_mes=[]
-
-### Lista que contiene los siguientes elementos formados por listas:
-### [mes, lista de las ventas totales del mes]
-for mes in meses_de_ventas: 
-    ventas_del_mes=[]
-    for venta in lifestore_sales:
-        if venta[3][3:10]==mes:
-            ventas_del_mes.append(venta)
-    ventas_por_mes.append([mes,ventas_del_mes])
-
-ventas_ingresos_totales=[]
-
-for ventasmes in ventas_por_mes:
-    ingresos=0
-    ventas=len(ventasmes[1])
-    for venta in ventasmes[1]: 
-        for producto in lifestore_products: 
-            if venta[1]==producto[0]:
-                ingresos+=producto[2]
-                #agrega [mes, numero de ventas, ingresos por mes]
-    ventas_ingresos_totales.append([ventasmes[0],ventas,ingresos])                
-   
 
 #%% R E S U L T A D O S (login)
 # A partir de aquí, el siguiente código tiene el objetivo de imprimir de forma 
@@ -1826,19 +1844,20 @@ contrasenia_ingreso = input("Para acceder a los reportes, por favor, ingresa la 
 meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio","Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 if contrasenia_ingreso == "123":
     menu = int(input("""
-                    ¡Bienvenidos!
-          Escribe un número para ver el reporte deseado:
-              1 Reportes mensuales de ventas y reseñas de producto.
-              2 Reporte de las búsquedas en las ventas del año.
-              3 Ventas de forma anual.
-          ¿Qué menú deseas ver?: """))
+           ¡Bienvenidos a Lifestore!
+Escribe un número para ver el reporte deseado:
+   1 Reportes mensuales de ventas y reseñas de producto.
+   2 Reporte de las búsquedas en las ventas del año.
+   3 Ventas de forma anual e inventario actual.
+¿Qué menú deseas ver?: """))
     if menu == 1:
         mes1 = input("""
-                    Escriba el nombre del mes que desea
-                    empezando con mayúscula: """)
+Escriba el nombre del mes que desea
+empezando con mayúscula: """)
         if mes1 in meses:
-            print("Reporte de ",mes1)
-            indice = meses.index(mes1)
+            print("")
+            print("     Reporte de ",mes1)
+            indice = int(meses.index(mes1))
             print("")
             print("Lista de los primeros 10 productos más vendidos")
             for i in ventas_por_mes_sin_dev[indice][0]:
@@ -1849,11 +1868,7 @@ if contrasenia_ingreso == "123":
                 print(i)
             print("")
             print("Lista de las primeras 10 mejores reseñas")
-            for i in ventas_por_mes_sin_dev[indice][2]:
-                print(i)
-            print("")
-            print("Lista de las primeras 10 peores reseñas")
-            for i in ventas_por_mes_sin_dev[indice][3]:
+            for i in ventas_por_mes_con_dev[indice][0]:
                 print(i)
             print("")
         else:
@@ -1863,7 +1878,8 @@ if contrasenia_ingreso == "123":
                   Reinicia el programa.
                   """)
     elif menu == 2:
-        print("Reporte de búsquedas hechas")
+        print("")
+        print("     Reporte de búsquedas hechas")
         print("")
         print("Los diez productos más buscados:")
         for i in los_mas_buscados:
@@ -1878,7 +1894,13 @@ if contrasenia_ingreso == "123":
             print(i)
         busquedas_por_categoria
     elif menu == 3:
-        print("""3""")
+        print("")
+        print("""VENTAS""")
+        print("")
+        print("      Productos en el almacén")
+        print("")
+        for categ_alacen in categorias_almacenadas:
+            print(categ_alacen)
     else:
         print("""
               Por favor, asegúrate de escribir solo un número
@@ -1890,18 +1912,3 @@ else:
           Lo sentimos, la contraseña ingresada es incorrecta.
           Reinicia el programa.
           """)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
