@@ -1,3 +1,18 @@
+"""
+Carlos Avila Argüello
+
+Sugerencia:
+Para leer este código, te recomiendo:
+- Hacer "folding" de las secciones de código.
+- Abrir una por una, luego la cierras.
+Esto porque así puedes tener una mejor perspectiva de cómo ordené el código.
+
+Comentario:
+Traté de no usar el hecho de que el id es una sucesión de números, es decir, 
+que en teoría con el código descrito, se puede poner un id alpha-numérico, y 
+los resultados deberían ser consistentes. Lo anteior sí implica unas líneas más
+de código.
+"""
 
 lifestore_products = [
     [1, 'Procesador AMD Ryzen 3 3300X S-AM4, 3.80GHz, Quad-Core, 16MB L2 Cache', 3019, 'procesadores', 16],
@@ -113,7 +128,7 @@ lifestore_sales = [
     [12, 2, 4, '24/04/2020', 0],
     [13, 2, 4, '02/05/2020', 0],
     [14, 2, 4, '03/06/2020', 0],
-    [15, 2, 3, '10/11/2019', 1],
+    [15, 2, 3, '10/11/2020', 1],
     [16, 3, 5, '21/07/2020', 0],
     [17, 3, 4, '21/07/2020', 0],
     [18, 3, 5, '11/06/2020', 0],
@@ -317,7 +332,7 @@ lifestore_sales = [
     [216, 54, 5, '11/05/2020', 0],
     [217, 54, 5, '08/05/2020', 0],
     [218, 54, 5, '04/05/2020', 0],
-    [219, 54, 4, '04/05/2002', 0],
+    [219, 54, 4, '04/05/2020', 0],
     [220, 54, 5, '04/05/2020', 0],
     [221, 54, 5, '04/05/2020', 0],
     [222, 54, 4, '30/04/2020', 0],
@@ -1420,8 +1435,7 @@ lifestore_searches = [
     [1033, 95]
 ]
 
-#----------------------------------------------------------------------------
-
+#%% Datos: ver qué se ecuentra dentro de cada lista, conocer con qué trabajaré.
 """
 Proyecto 1
 EmTech
@@ -1449,207 +1463,445 @@ lifestore_sales = [id_sale, id_product, score (from 1 to 5), date, refund
 lifestore_searches = [id_search, id product]
     Hay 96 elementos (cada uno tiene):
         0. La clave de busqueda.
-        1. La clave del producto que se vendió.
+        1. La clave del producto que se buscó.
 """
+#%% P R O G R A M A (código)
+# Separar los DATOS de la lista de ventas al mes para hacer los reportes 
+# mensuales solicitados en las instrucciones.
+    #%% Agrupar lifestore_sales por mes con devolución
+ventas_01 = []
+ventas_02 = []
+ventas_03 = []
+ventas_04 = []
+ventas_05 = []
+ventas_06 = []
+ventas_07 = []
+ventas_08 = []
+ventas_09 = []
+ventas_10 = []
+ventas_11 = []
+ventas_12 = []
 
-#----------------------------------------------------------------------------
+# Asignar las ventas de la lista de ventas, agrupandolas mensualmente
+for venta in lifestore_sales:
+        if venta[3][3:5] == "01":
+            ventas_01.append(venta)
+        elif venta[3][3:5] == "02":
+            ventas_02.append(venta)
+        elif venta[3][3:5] == "03":
+            ventas_03.append(venta)
+        elif venta[3][3:5] == "04":
+            ventas_04.append(venta)
+        elif venta[3][3:5] == "05":
+            ventas_05.append(venta)
+        elif venta[3][3:5] == "06":
+            ventas_06.append(venta)
+        elif venta[3][3:5] == "07":
+            ventas_07.append(venta)
+        elif venta[3][3:5] == "08":
+            ventas_08.append(venta)
+        elif venta[3][3:5] == "09":
+            ventas_09.append(venta)
+        elif venta[3][3:5] == "10":
+            ventas_10.append(venta)
+        elif venta[3][3:5] == "11":
+            ventas_11.append(venta)
+        elif venta[3][3:5] == "12":
+            ventas_12.append(venta)
 
-# A. PRODUCTOS MÁS VENDIDOS Y REZAGADOS 
-# A.1 Obtener los 5 productos más vendidos y los 10 más buscados:
+ventas_por_mes_con_dev = [
+    ventas_01,
+    ventas_02, 
+    ventas_03, 
+    ventas_04, 
+    ventas_05, 
+    ventas_06, 
+    ventas_07, 
+    ventas_08, 
+    ventas_09, 
+    ventas_10, 
+    ventas_11, 
+    ventas_12 
+    ]
 
-    # 1. Obtener una lista de las claves de los productos:
+    #%% Agrupar lifestore_sales por mes sin devolución
+ventas_01_sd = []
+ventas_02_sd = []
+ventas_03_sd = []
+ventas_04_sd = []
+ventas_05_sd = []
+ventas_06_sd = []
+ventas_07_sd = []
+ventas_08_sd = []
+ventas_09_sd = []
+ventas_10_sd = []
+ventas_11_sd = []
+ventas_12_sd = []
+
+# Asignar las ventas de la lista de ventas, agrupandolas mensualmente
+for venta in lifestore_sales:
+        if venta[4] == 0:
+            if venta[3][3:5] == "01":
+                ventas_01_sd.append(venta)
+            elif venta[3][3:5] == "02":
+                ventas_02_sd.append(venta)
+            elif venta[3][3:5] == "03":
+                ventas_03_sd.append(venta)
+            elif venta[3][3:5] == "04":
+                ventas_04_sd.append(venta)
+            elif venta[3][3:5] == "05":
+                ventas_05_sd.append(venta)
+            elif venta[3][3:5] == "06":
+                ventas_06_sd.append(venta)
+            elif venta[3][3:5] == "07":
+                ventas_07_sd.append(venta)
+            elif venta[3][3:5] == "08":
+                ventas_08_sd.append(venta)
+            elif venta[3][3:5] == "09":
+                ventas_09_sd.append(venta)
+            elif venta[3][3:5] == "10":
+                ventas_10_sd.append(venta)
+            elif venta[3][3:5] == "11":
+                ventas_11_sd.append(venta)
+            elif venta[3][3:5] == "12":
+                ventas_12_sd.append(venta)
+
+ventas_por_mes_sin_dev = [
+    ventas_01_sd,
+    ventas_02_sd, 
+    ventas_03_sd, 
+    ventas_04_sd, 
+    ventas_05_sd, 
+    ventas_06_sd, 
+    ventas_07_sd, 
+    ventas_08_sd, 
+    ventas_09_sd, 
+    ventas_10_sd, 
+    ventas_11_sd, 
+    ventas_12_sd 
+    ]
+
+
+
+
+#%% A. Productos más vendidos, ventas por categoría, mejores y peores reseñas al mes.
+# 0. Obtener una lista de las claves de los productos:
 id_producto = []
 for producto in range(len(lifestore_products)):
     id_producto.append(lifestore_products[producto][0])
+
+# 0.0 Obtener las categorías únicas (función "set") de los productos:
+categorias = []
+for producto in lifestore_products:
+    categorias.append(producto[3])
+categorias = list(set(categorias))
+
+# 0.0.0 Definir una función para tener criterio de ordenar los objetos
+    # de la lista (de frecuencias) con respecto al segundo
+    # elemento de cada objeto en la lista.
+def criterio_orden_dos(elemento):
+    return elemento[1]
+
+# Este for junto con el que sigue obtiene los productos más vendidos, 
+# ventas por categoría, mejores y peores reseñas por mes, para las reseñas,
+# también se consideran los productos devueltos, para el resto no:
+for mes_venta in ventas_por_mes_sin_dev: #el mes_venta es un "pedazo" de 
+# lifestore_sales, con ventas agrupadas por mes.
+    # 1.0 Crear listas que contengan el id_producto (clave) que aparece en la 
+    # lista de ventas por mes:
+    id_del_prod_repetido_en_ventas = []
+    for venta in range(len(mes_venta)):
+            id_del_prod_repetido_en_ventas.append(mes_venta[venta][1])
+
+    # 1.1 Hacer una "Tabla" de frecuencias por id_producto donde:
+    #    frecuencia_producto = [id_producto, veces_vendido].
+    frecuencia_producto = []
+    for i in id_producto:
+        frecuencia_producto.append([i,id_del_prod_repetido_en_ventas.count(i)])
+
+    # 1.2 Definir la lista de los más vendidos con uso de la función sort() para
+    # obtener de mayor a menor las ventas de productos.
+    frecuencia_producto.sort(reverse = True, key = criterio_orden_dos)
+
+    # 1.3 Obtener los nombres de los 10 primeros productos más vendidos.
+    los_mas_vendidos = []
+    for i in range(len(lifestore_products)):
+        for j in range(len(frecuencia_producto)):
+            if lifestore_products[i][0] == frecuencia_producto[j][0]:
+                los_mas_vendidos.append([frecuencia_producto[j][1], lifestore_products[i][1]])
+    los_mas_vendidos.sort(reverse = True)
+    los_mas_vendidos = los_mas_vendidos[0:10]
+    # 1.4 Añadimos a la lista de ventas mensuales, el resultado.
+    mes_venta.insert(0,los_mas_vendidos)
+
+    # 2.0 Obtener las ventas por categoría
+    # 2.1 La lista previamente creada con los id_producto en la lista de ventas,
+    # no devueltas, la usamos para obtener la categoría que le corresponde a 
+    # dicha venta.
+    categoria_del_prod_repetida_en_ventas = []
+    for clave_prod_en_ventas in id_del_prod_repetido_en_ventas:
+        for producto in lifestore_products:
+            if clave_prod_en_ventas == producto[0]:
+                categoria_del_prod_repetida_en_ventas.append(producto[3])
+    # La lista anterior nos devuelve la categoría que hay en la lista
+    # por cada venta (no devuelta) de producto.
     
-    # 2. Crear listas que contengan el id_producto (clave) que aparece en:
-        # 2.1 La Lista de ventas:
-id_del_prod_repetido_en_ventas = []
-for venta in range(len(lifestore_sales)):
-    if lifestore_sales[venta][4] == 0: #Solo las ventas no devueltas
-        id_del_prod_repetido_en_ventas.append(lifestore_sales[venta][1])
-        # 2.2 La Lista de búsquedas:
+    # 2.2 Hacer una "Tabla" de frecuencias por categoría donde:
+    #    frec_prod_categ = [veces_vendida, categ_prod], en las ventas.
+    frec_prod_categ = []
+    for categoria in categorias:
+        frec_prod_categ.append([categoria_del_prod_repetida_en_ventas.count(categoria),
+                                categoria])
+    mes_venta.insert(1,frec_prod_categ)
+
+# 3.0 PRODUCTOS POR RESEÑA DE SERVICIO
+# El for que siguie, como el anterior, permite conocer las reseñas por mes, 
+# las mejores y peores, por productos vendidos (hasta los que sí se devolvieron).
+# Tuve que hacer otro for, iterando sobre las listas mensuales que sí consideran
+# las devoluciones:
+for ventas_mensuales in ventas_por_mes_con_dev:
+    # Extraer los id de los productos de las listas de ventas al mes.
+    id_del_prod_repetido_en_ventas = []
+    for venta in range(len(ventas_mensuales)):
+            id_del_prod_repetido_en_ventas.append(ventas_mensuales[venta][1])
+    # 3.1. Hacer una lista que tenga las calificaciones promedio por producto.
+    resenias_por_producto = []
+    for clave_producto in list(set(id_del_prod_repetido_en_ventas)):
+        aux = []
+        for venta in ventas_mensuales:
+            if clave_producto == venta[1] and venta[1] != None:
+                aux.append(venta[2])
+        resenias_por_producto.append([sum(aux)/len(aux), clave_producto])
+
+    # 3.2 Los 10 productos con mejores reseñas.
+    mejores_resenias = resenias_por_producto
+    mejores_resenias.sort(reverse = True)
+    #Para que podamos asociar la clave con el nombre del producto...
+    las_mejores_resenias = []
+    for prod_resenia in mejores_resenias:
+        for producto in ventas_mensuales:
+            if prod_resenia[1] == producto[0]:
+                las_mejores_resenias.append([prod_resenia[0], producto[1]])
+    las_mejores_resenias = las_mejores_resenias[0:10]
+    # Añadimos el resultado a la lista de ventas del mes correspondiente.
+    mes_venta.insert(2,las_mejores_resenias)
+    
+    # 3.3 Los 5 productos con peores reseñas.
+    peores_resenias = resenias_por_producto
+    peores_resenias.sort(reverse = False)
+    #Para que podamos asociar la clave con el nombre del producto...
+    las_peores_resenias = []
+    for prod_resenia in peores_resenias:
+        for producto in ventas_mensuales:
+            if prod_resenia[1] == producto[0]:
+                las_peores_resenias.append([prod_resenia[0], producto[1]])
+    las_peores_resenias = las_peores_resenias[0:10]
+    #Añadimos a la lista de ventas mensuales, el resultado.
+    mes_venta.insert(3,las_peores_resenias)
+
+# EXPLICACIÓN DE LA LISTA OBTENIDA LUEGO DE ESTOS FOR:
+    #Lista de los primeros 10 productos más vendidos en enero
+ventas_por_mes_sin_dev[0][0]
+    #Lista de ventas por categoría en enero
+ventas_por_mes_sin_dev[0][1]
+    #Lista de las primeras 10 mejores reseñas en enero
+ventas_por_mes_sin_dev[0][2]
+    #Lista de las primeras 10 peores reseñas en enero
+ventas_por_mes_sin_dev[0][3]
+
+
+#%% B. Los productos más y menos buscados y las búsquedas por categoría
+# Como las búsquedas no se asocian con fechas, no se puede hacer un análisis 
+# de las búsquedas por mes, por lo que se hará con la lista lifestore_sales
+
+# 0.0 Obtener el id del producto por cada búsqueda y guardarlo en una lista.
 id_del_prod_repetido_en_busqued = []
 for busqued in range(len(lifestore_searches)):
     id_del_prod_repetido_en_busqued.append(lifestore_searches[busqued][1])
-        
-    # 3. Hacer una "Tabla" de frecuencias por id_producto donde:
-    #    frecuencia_producto = [id_producto, veces_vendido, veces_buscado].
-frecuencia_producto = []
+
+# 0.1 Contar el número de veces que aparece un id en la lista de búsquedas.
+frecuencia_product = []
 for i in id_producto:
-    frecuencia_producto.append([i,id_del_prod_repetido_en_ventas.count(i),
-                                id_del_prod_repetido_en_busqued.count(i)])
+    frecuencia_product.append([i,id_del_prod_repetido_en_busqued.count(i)])
 
-    # 4. Definir dos funciones para tener criterio de ordenar los objetos
-    # de la lista (de frecuencias) con respecto al segundo o tercer 
-    # elemento de cada objeto.
-def criterio_orden_dos(elemento):
-    return elemento[1]
-def criterio_orden_tres(elementa):
-    return elementa[2]
-    
-    # 5. Definir la lista de los más vendidos y los más buscados con uso de
-    # la función sort() para obtener de mayor a menor, las ventas o búsquedas
-    # de productos.
-mas_vendidos = frecuencia_producto
-mas_vendidos.sort(reverse = True, key = criterio_orden_dos)
+# 1.0 Obtener los productos más buscados como anteriormente: ordenar 
+# de forma descendente con respecto a la frecuencia de aparición del mismo en 
+# la lista de búsquedas de productos (lifestore_searches)
+mas_buscados = frecuencia_product
+mas_buscados.sort(reverse = True, key = criterio_orden_dos)
 
-mas_buscados = frecuencia_producto
-mas_buscados.sort(reverse = True, key = criterio_orden_tres)
-
-    # 6. Obtener los nombres de los 5 primeros productos más vendidos y de 
-    # los 10 más buscados.
-los_mas_vendidos = []
-for i in range(len(lifestore_products)):
-    for j in range(len(mas_vendidos)):
-        if lifestore_products[i][0] == mas_vendidos[j][0]:
-            los_mas_vendidos.append([mas_vendidos[j][1], lifestore_products[i][1]])
-los_mas_vendidos.sort(reverse = True)
-los_mas_vendidos = los_mas_vendidos[0:5]
-
+# 1.1 Asociar la lista anterior con el nombre del producto y no solo el id
 los_mas_buscados = []
 for i in range(len(lifestore_products)):
     for j in range(len(mas_buscados)):
         if lifestore_products[i][0] == mas_buscados[j][0]:
-            los_mas_buscados.append([mas_buscados[j][2], lifestore_products[i][1]])
+            los_mas_buscados.append([mas_buscados[j][1], lifestore_products[i][1]])
 los_mas_buscados.sort(reverse = True)
+
+# 1.2 Obtener los primeros 10
 los_mas_buscados = los_mas_buscados[0:10]
 
-#Imprimiré los resultados al final del inciso A.
+# 2.0 Obtener los productos menos buscados como anteriormente: ordenar 
+# de forma ascendente con respecto a la frecuencia de aparición del mismo en 
+# la lista de búsquedas de productos (lifestore_searches)
+menos_buscados = frecuencia_product
+menos_buscados.sort(reverse = False, key = criterio_orden_dos)
 
-# A.2 Obtener los 5 productos con menores ventas y los 10 con menos búsquedas 
-#     POR CATEGORÍA
+# 2.1 Asociar la lista anterior con el nombre del producto y no solo el id
+los_menos_buscados = []
+for i in range(len(lifestore_products)):
+    for j in range(len(mas_buscados)):
+        if lifestore_products[i][0] == menos_buscados[j][0]:
+            los_menos_buscados.append([menos_buscados[j][1], lifestore_products[i][1]])
+los_menos_buscados.sort(reverse = False)
 
-    # 1. La lista previamente creada con los id_producto en la lista de ventas,
-    # no devueltas, la usamos para obtener la categoría que le corresponde a 
-    # dicha venta. Análogo para la categoría de búsquedas.
-categoria_del_prod_repetida_en_ventas = []
-for clave_prod_en_ventas in id_del_prod_repetido_en_ventas:
-    for producto in lifestore_products:
-        if clave_prod_en_ventas == producto[0]:
-            categoria_del_prod_repetida_en_ventas.append(producto[3])
+# 2.2 Obtener los primeros 10
+los_menos_buscados = los_menos_buscados[0:10]
 
+# 3.0 Búsquedas por categoría
+# Esta iteración de iteraciones compara el id del producto que se encuentra 
+# en la lista de búsquedas con el id de la lista de productos y llena una lista
+# que tiene la categoría que le corresponde a cada búsqueda:
 categoria_del_prod_repetida_en_busquedas = []
 for clave_prod_en_busquedas in id_del_prod_repetido_en_busqued:
     for producto in lifestore_products:
         if clave_prod_en_busquedas == producto[0]:
             categoria_del_prod_repetida_en_busquedas.append(producto[3])
-    # Las listas anteriores nos devuelven la categoría que hay en la lista
-    # por cada venta (no devuelta) y por cada búsqueda de producto
-
-    # 2. Hacer una "Tabla" de frecuencias por categoría donde:
-    #    frec_prod_categ = [veces_vendida, veces_buscada, categ_prod].
-    
-    # Obtener las categorías únicas (función "set") de los productos:
-categorias = []
-for producto in lifestore_products:
-    categorias.append(producto[3])
-categorias = list(set(categorias))
-    # Obtener la frecuencia de esa categoría en las ventas y en las búsquedas
+            
+# 3.1 Hacer una tabla de frecuencias: cuántas veces aparece una categoría dentro
+# de las búsquedas.
 frec_prod_categ = []
 for categoria in categorias:
-    frec_prod_categ.append([categoria_del_prod_repetida_en_ventas.count(categoria),
-                            categoria_del_prod_repetida_en_busquedas.count(categoria),
+    frec_prod_categ.append([categoria_del_prod_repetida_en_busquedas.count(categoria),
                             categoria])
 
-    # 3. Ordenar la tabla anterior de dos formas: 
-        # 3.1 Ascendente con respecto del número de ventas por categoría, 
-        # y separamos la tabla para dejar solo la frecuencia de ventas
-menos_vendidas = frec_prod_categ
-menos_vendidas.sort()
-categ_menos_vendid = []
-for categoria in menos_vendidas:
-    categ_menos_vendid.append([categoria[0],categoria[2]])
-categ_menos_vendid = categ_menos_vendid[0:5]
+# Ordenamos para ver qué categorías se buscaron menos o más
+busquedas_por_categoria = frec_prod_categ
+busquedas_por_categoria.sort()
+busquedas_por_categoria = busquedas_por_categoria[0:10]
 
-        # 3.2 Ascendente con respecto del número de búsquedas por categoría,
-        # y separamos la tabla para dejar solo la frecuencia de búsquedas.
-menos_buscadas = frec_prod_categ
-menos_buscadas.sort(key = criterio_orden_dos)
-categ_menos_buscad = []
-for categoria in menos_buscadas:
-    categ_menos_buscad.append([categoria[1],categoria[2]])
-categ_menos_buscad = categ_menos_buscad[0:10]
+#%% C. Ventas, mensuales, totales.
 
-# R E S U L T A D O inciso A:
-    # Los primeros 5 más vendidos
-print("Los 5 productos más vendidos (sin haberse devuelto) son:")
-print("")
-for i in los_mas_vendidos:
-    print(i)
-print("")
-    # Los 10 primeros más buscados
-print("Los 10 productos más buscados son:")
-print("")
-for i in los_mas_buscados:
-    print(i)
-print("")
+### verificamos los meses en los que hubo ventas
+meses_de_ventas=[]
+for venta in lifestore_sales:
+    if venta[4]==0:
+        meses_de_ventas.append(venta[3][3:10])
 
-    # Los primeros 5 menos vendidos por categoría
-print("Las 5 categorías de producto menos vendidas (con productos que no se devolvieron):")
-print("")
-for i in categ_menos_vendid:
-    print(i)
-print("")
-    # Los menos buscados por categoría
-print("Las categorías de producto menos vendidas:")
-print("")
-for i in categ_menos_buscad:
-    print(i)
-print("")
+meses_de_ventas=sorted(set(meses_de_ventas))
 
-#----------------------------------------------------------------------------
 
-# B. PRODUCTOS POR RESEÑA DE SERVICIO
-# Considera tabién los que se devolvieron.
-# NO considerar productos sin reseña: (suposición) que no están en la lista de ventas.
+ventas_por_mes=[]
 
-    # 0. Hacer una lista que tenga las calificaciones promedio por producto.
-resenias_por_producto = []
-for clave_producto in list(set(id_del_prod_repetido_en_ventas)):
-    aux = []
+### Lista que contiene los siguientes elementos formados por listas:
+### [mes, lista de las ventas totales del mes]
+for mes in meses_de_ventas: 
+    ventas_del_mes=[]
     for venta in lifestore_sales:
-        if clave_producto == venta[1] and venta[1] != None:
-            aux.append(venta[2])
-    resenias_por_producto.append([sum(aux)/len(aux), clave_producto])
+        if venta[3][3:10]==mes:
+            ventas_del_mes.append(venta)
+    ventas_por_mes.append([mes,ventas_del_mes])
 
-# B.1 Los 5 productos con mejores reseñas.
-mejores_resenias = resenias_por_producto
-mejores_resenias.sort(reverse = True)
-#Para que podamos asociar la clave con el nombre del producto...
-las_mejores_resenias = []
-for prod_resenia in mejores_resenias:
-    for producto in lifestore_products:
-        if prod_resenia[1] == producto[0]:
-            las_mejores_resenias.append([prod_resenia[0], producto[1]])
-las_mejores_resenias = las_mejores_resenias[0:5]
-# B.1 Los 5 productos con peores reseñas.
-peores_resenias = resenias_por_producto
-peores_resenias.sort(reverse = False)
-#Para que podamos asociar la clave con el nombre del producto...
-las_peores_resenias = []
-for prod_resenia in peores_resenias:
-    for producto in lifestore_products:
-        if prod_resenia[1] == producto[0]:
-            las_peores_resenias.append([prod_resenia[0], producto[1]])
-las_peores_resenias = las_peores_resenias[0:5]
+ventas_ingresos_totales=[]
 
-# R E S U L T A D O inciso B:
-    # Los primeros 5 con mejor reseña promedio
-print("Los 5 productos con mejor reseña promedio con:")
-print("")
-for i in las_mejores_resenias:
-    print(i)
-print("")
-    # Los 10 primeros más buscados
-print("Los 5 productos con peor reseña promedio con:")
-print("")
-for i in las_peores_resenias:
-    print(i)
-print("")
+for ventasmes in ventas_por_mes:
+    ingresos=0
+    ventas=len(ventasmes[1])
+    for venta in ventasmes[1]: 
+        for producto in lifestore_products: 
+            if venta[1]==producto[0]:
+                ingresos+=producto[2]
+                #agrega [mes, numero de ventas, ingresos por mes]
+    ventas_ingresos_totales.append([ventasmes[0],ventas,ingresos])                
+   
 
-#----------------------------------------------------------------------------
+#%% R E S U L T A D O S (login)
+# A partir de aquí, el siguiente código tiene el objetivo de imprimir de forma 
+# ordenada los resultados obtenidos del programa.
 
-# C. VENTAS
+# Primero verificamos si el usuaruio está registrado
+contrasenia_ingreso = input("Para acceder a los reportes, por favor, ingresa la contraseña: ")
+# La contraseña es: 123
+# Definimos los meses para que el usuario decida qué reporte mensual ver.
+meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio","Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+if contrasenia_ingreso == "123":
+    menu = int(input("""
+                    ¡Bienvenidos!
+          Escribe un número para ver el reporte deseado:
+              1 Reportes mensuales de ventas y reseñas de producto.
+              2 Reporte de las búsquedas en las ventas del año.
+              3 Ventas de forma anual.
+          ¿Qué menú deseas ver?: """))
+    if menu == 1:
+        mes1 = input("""
+                    Escriba el nombre del mes que desea
+                    empezando con mayúscula: """)
+        if mes1 in meses:
+            print("Reporte de ",mes1)
+            indice = meses.index(mes1)
+            print("")
+            print("Lista de los primeros 10 productos más vendidos")
+            for i in ventas_por_mes_sin_dev[indice][0]:
+                print(i)
+            print("")
+            print("Lista de ventas por categoría")
+            for i in ventas_por_mes_sin_dev[indice][1]:
+                print(i)
+            print("")
+            print("Lista de las primeras 10 mejores reseñas")
+            for i in ventas_por_mes_sin_dev[indice][2]:
+                print(i)
+            print("")
+            print("Lista de las primeras 10 peores reseñas")
+            for i in ventas_por_mes_sin_dev[indice][3]:
+                print(i)
+            print("")
+        else:
+            print("""
+                  Por favor, asegúrate de escribir el nombre
+                  del mes empezando con mayúsculas.
+                  Reinicia el programa.
+                  """)
+    elif menu == 2:
+        print("Reporte de búsquedas hechas")
+        print("")
+        print("Los diez productos más buscados:")
+        for i in los_mas_buscados:
+            print(i)
+        print("")
+        print("Los diez productos menos buscados:")
+        for i in los_menos_buscados:
+            print(i)
+        print("")
+        print("Búsquedas por categoría:")
+        for i in busquedas_por_categoria:
+            print(i)
+        busquedas_por_categoria
+    elif menu == 3:
+        print("""3""")
+    else:
+        print("""
+              Por favor, asegúrate de escribir solo un número
+              dentro de las opciones marcadas en el menú.
+              Reinicia el programa.
+              """)
+else:
+    print("""
+          Lo sentimos, la contraseña ingresada es incorrecta.
+          Reinicia el programa.
+          """)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
